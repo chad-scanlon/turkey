@@ -10,19 +10,19 @@ module.exports = {
 };
 
 function find() {
-    return db.select("*").from("users");
+    return db.select("*").from("players");
 }
 
 function findById(id) {
-    return db("users").where({ id });
+    return db("players").where({ id });
 }
 
 function findBy(filter) {
-    return db("users").select("username", "password").where(filter);
+    return db("players").select("username", "password").where(filter);
 }
 
 function add(user) {
-    return db("users")
+    return db("players")
         .insert(user, "id")
         .then((ids) => {
             const [id] = ids;
@@ -31,9 +31,9 @@ function add(user) {
 }
 
 function update(id, user) {
-    return db("users").where("id", Number(id)).update(user);
+    return db("players").where("id", Number(id)).update(user);
 }
 
 function remove(id) {
-    return db("users").where("id", Number(id)).del();
+    return db("players").where("id", Number(id)).del();
 }
