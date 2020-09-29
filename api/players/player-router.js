@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-const users = require("../users/user-model.js");
+const players = require("./player-model.js");
 const restricted = require("../../auth/restricted-middleware.js");
 
 const bcryptjs = require("bcryptjs");
@@ -8,12 +8,12 @@ const jwt = require("jsonwebtoken");
 const secrets = require("../../data/secrets.js");
 const { isValid } = require("../../auth/auth-user.js");
 
-// adding/editing/validating users
+// adding/editing/validating players
 router.get("/", (req, res) => {
-    users
+    players
         .find()
-        .then((users) => {
-            res.status(200).json(users);
+        .then((players) => {
+            res.status(200).json(players);
         })
         .catch((err) => {
             console.log(err);
@@ -22,26 +22,26 @@ router.get("/", (req, res) => {
 });
 router.get("/:id", (req, res) => {
     const { id } = req.params;
-    users
+    players
         .findById(id)
-        .then((user) => {
-            if (user) {
-                res.json(user);
+        .then((player) => {
+            if (player) {
+                res.json(player);
             } else {
-                res.status(404).json({ message: "No user by that id" });
+                res.status(404).json({ message: "No player by that id" });
             }
         })
         .catch((err) => {
             console.log(err);
-            res.status(500).json({ message: "Error getting that user" });
+            res.status(500).json({ message: "Error getting that player" });
         });
 });
-router.post("/add-user", (req, res) => {
-    const userData = req.body;
-    users
-        .add(userData)
-        .then((addedUser) => {
-            res.status(201).json(addedUser);
+router.post("/add-player", (req, res) => {
+    const playerData = req.body;
+    players
+        .add(playerData)
+        .then((addedPlayer) => {
+            res.status(201).json(addedPlayer);
         })
         .catch((error) => {
             console.log(error);
@@ -51,36 +51,36 @@ router.post("/add-user", (req, res) => {
 router.put("/:id", (req, res) => {
     const { id } = req.params;
     const changes = req.body;
-    users
+    players
         .findById(id)
-        .then((user) => {
-            if (user) {
-                users.update(changes, id).then((updatedUser) => {
-                    res.json(updatedUser);
+        .then((player) => {
+            if (player) {
+                players.update(changes, id).then((updatedplayer) => {
+                    res.json(updatedplayer);
                 });
             } else {
-                res.status(404).json({ message: "No user by that id" });
+                res.status(404).json({ message: "No player by that id" });
             }
         })
         .catch((err) => {
             console.log(err);
-            res.status(500).json({ message: "Error updating the user" });
+            res.status(500).json({ message: "Error updating the player" });
         });
 });
 router.delete("/:id", (req, res) => {
     const { id } = req.params;
-    users
+    players
         .remove(id)
         .then((deleted) => {
             if (deleted) {
                 res.json({ removed: deleted });
             } else {
-                res.status(404).json({ message: "Could not find that user" });
+                res.status(404).json({ message: "Could not find that player" });
             }
         })
         .catch((err) => {
             console.log(err);
-            res.status(500).json({ message: "Error deleting the user" });
+            res.status(500).json({ message: "Error deleting the player" });
         });
 });
 
@@ -90,7 +90,7 @@ router.post("/register", (req, res) => {
         const rounds = process.env.BCRYPT_ROUNDS || 8;
         const hash = bcryptjs.hashSync(credentials.password, rounds);
         credentials.password = hash;
-        users
+        players
             .add(credentials)
             .then((user) => {
                 res.status(201).json(user);
@@ -109,7 +109,7 @@ router.post("/register", (req, res) => {
 router.post("/login", (req, res) => {
     const { username, password } = req.body;
     if (isValid(req.body)) {
-        users
+        players
             .findBy({ username: username })
             .then(([user]) => {
                 if (user && bcryptjs.compareSync(password, user.password)) {

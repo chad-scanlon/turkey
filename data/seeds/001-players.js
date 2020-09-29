@@ -1,8 +1,8 @@
 exports.seed = function (knex) {
-    return knex("users")
+    return knex("players")
         .truncate()
         .then(function () {
-            return knex("users").insert([
+            return knex("players").insert([
                 {
                     id: 1,
                     name: "QB Bills",
