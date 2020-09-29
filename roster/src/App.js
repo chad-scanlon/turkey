@@ -8,7 +8,7 @@ function App() {
     const [players, setPlayers] = useState([]);
     useEffect(() => {
         axiosWithAuth()
-            .get("/users")
+            .get("/players")
             .then((res) => {
                 console.log(res);
                 setPlayers(res.data);

@@ -45,9 +45,14 @@ module.exports = {
             },
         },
     },
+
     production: {
-        client: "pg",
-        connection: process.env.DATABASE_URL,
+        client: "sqlite3",
+        connection: {
+            filename: "./data/players.db3",
+        },
+        // client: "pg",
+        // connection: process.env.DATABASE_URL,
         useNullAsDefault: true,
         pool: {
             min: 2,
