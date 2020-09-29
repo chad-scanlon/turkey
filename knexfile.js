@@ -5,7 +5,7 @@ module.exports = {
         client: "sqlite3",
         useNullAsDefault: true,
         connection: {
-            filename: "./data/players",
+            filename: "./data/players.db3",
         },
         pool: {
             min: 2,
