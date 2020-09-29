@@ -55,8 +55,8 @@ router.put("/:id", (req, res) => {
         .findById(id)
         .then((player) => {
             if (player) {
-                players.update(changes, id).then((updatedplayer) => {
-                    res.json(updatedplayer);
+                players.update(changes, id).then((updatedPlayer) => {
+                    res.json(updatedPlayer);
                 });
             } else {
                 res.status(404).json({ message: "No player by that id" });

@@ -6,13 +6,13 @@ const server = express();
 
 const authenticate = require("../auth/restricted-middleware.js");
 
-const userRouter = require("./players/player-router.js");
+const playerRouter = require("../api/players/player-router");
 
 server.use(helmet());
 server.use(cors());
 server.use(express.json());
 
-server.use("/api/players", userRouter);
+server.use("/api/players", playerRouter);
 
 server.get("/", (req, res) => {
     res.status(200).json({ message: "Welcome to the Turkey Bowl API!" });
